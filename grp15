@@ -1,0 +1,339 @@
+package motorph_payroll_system;
+
+
+import java.util.Scanner;
+
+
+public class MotorPH_Payroll_System {
+
+    /**
+     * @param args
+     */
+    public static void main(String[] args) {
+        // TODO code application logic here        // TODO code application logic here        // TODO code application logic here        // TODO code application logic here        // TODO code application logic here        // TODO code application logic here        // TODO code application logic here        // TODO code application logic here
+         private static Scanner kbd = new Scanner(System.in);
+
+    static File employeeFile = new File("MotorPH Employee Data.csv");
+    public static void main (String [] args) {
+
+        int line = 1;
+        String ID;
+        
+        FileWriter employees; // TODO Auto-generated catch block
+        try (Scanner fileWrite = new Scanner((Readable) employeeFile)) {
+            employees = new FileWriter ("Employee List.txt");
+            fileWrite.nextLine();
+            while (fileWrite.hasNext()) {
+                
+                
+                if (line >= 2) {
+                    employees.write(fileWrite.nextLine());
+                    if (fileWrite.hasNext()) {
+                        employees.write("\n");
+                    }
+                }
+                
+                line++;
+            }
+        }
+        employees.close();
+
+        File finFile = new File("Employee List.txt"); 
+        
+        ID = intro(finFile);
+      
+        // method to capture how long an employee works in hours, but for now, this will take user input
+        System.out.print("How long did this employee work for? : ");
+        int hr = kbd.nextInt();
+
+        dispEmployee(finFile, employeeFind(finFile, ID), hr);
+        
+    }
+
+    /**
+     *
+     * @param emp
+     * @return
+     */
+    @SuppressWarnings("NonPublicExported")
+    public static String intro(File emp) {
+
+        System.out.println("Hello and Welcome ");
+        System.out.println("Please enter your ID to login.");
+        
+        boolean met = false;
+        String id = "";
+        int empId, idInt;
+
+
+            try {
+
+                while (met == false) {
+
+                    Scanner test;
+                    test = new Scanner((Readable) emp);
+
+                    System.out.print("ID: ");
+                    id = kbd.nextLine().strip();
+
+                    idInt = Integer.parseInt(id);
+
+                    if (id.length() > 5 || id.length() < 5){
+                        System.out.println("Sorry, ID cannot not be less than 5 or more than 5 characters.");
+                    }
+
+                    while (test.hasNext()) {
+                        empId = Integer.parseInt(test.nextLine().split(",")[0]);
+                        if (empId == idInt) {
+                            System.out.println("ID was found");
+                            met = true;
+                        } 
+                        
+                    }
+                    test.close();
+                    
+                    if (met == false)
+                        System.out.println("ID not found, try again");
+                            
+                }
+                // to catch if there are any letters
+            } catch (NumberFormatException e1) {
+                System.out.println("ID Should only have numbers.");
+            }    
+        return id;
+    }
+
+    /**
+     *
+     * @param employees
+     * @param id
+     * @return
+     */
+    @SuppressWarnings("NonPublicExported")
+    public static int employeeFind(File employees, String id) {
+    
+        int cnt = 0;
+        
+        try (Scanner empList = new Scanner((Readable) employees)) {
+            while (empList.hasNext()) {
+                cnt++;
+                
+                int empInt, idInt;
+                
+                empInt = Integer.parseInt(empList.nextLine().split(",")[0]);
+                idInt = Integer.parseInt(id);
+                
+                System.out.print(idInt + "id Integer");
+                
+                if (empInt == idInt) {
+                    System.out.println(id + " is Found.");
+                    break;
+                }  
+            }
+        }
+        // TODO Auto-generated catch block
+
+        System.out.println("Welcome Employee " + id + "\n");
+        return cnt;
+
+    }
+
+    public static void dispEmployee (File employees, int count, int hrIn) {
+        Scanner empList; // TODO Auto-generated catch block
+        empList = new Scanner((Readable) employees);
+        String empString, ID, fullname, bday, address, phone, sss, pH, tin, pagI, status, posi, iS, bS, rS, pA, cA, gsmr, hr;
+        for (int i = 0; i < count; i++) {
+            
+            empString = empList.nextLine();
+            
+            if (i == count - 1) {
+                //,Last Name,First Name,Birthday,Address,Phone Number,SSS #,Philhealth #,TIN #,Pag-ibig #,Status,Position,Immediate Supervisor,Basic Salary,Rice Subsidy,
+                //Phone Allowance,Clothing Allowance,Gross Semi-monthly Rate,Hourly Rate
+                ID = empString.split(",")[0];
+                fullname = empString.split(",")[2] + " " + empString.split(",")[1];
+                bday = empString.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)")[3];
+                address = empString.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)")[4];
+                phone = empString.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)")[5];
+                
+                sss = empString.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)")[6];
+                pH = empString.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)")[7];
+                tin = empString.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)")[8];
+                pagI = empString.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)")[9];
+                status = empString.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)")[10];
+                posi = empString.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)")[11];
+                iS = empString.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)")[12];
+                bS = empString.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)")[13];
+                rS = empString.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)")[14];
+                pA = empString.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)")[15];
+                cA = empString.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)")[16];
+                gsmr = empString.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)")[17];
+                hr = empString.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)")[18];
+                
+                System.out.println("ID: " + ID);
+                System.out.println("Fullname: " + fullname);
+                System.out.println("Birthday: " + bday);
+                System.out.println("Address " + address);
+                System.out.println("Phone Number: " + phone);
+                System.out.println("SSS Number: " + sss);
+                System.out.println("PhilHealth Number: " + pH);
+                System.out.println("TIN Number: " + tin);
+                System.out.println("Pag-ibig Number: " + pagI);
+                System.out.println("Status: " + status);
+                System.out.println("Position: " + posi);
+                System.out.println("Immediate Supervisor: " + iS);
+                System.out.println("Basic Salary: " + bS);
+                System.out.println("Rice Subsidy: " + rS);
+                System.out.println("Phone Allowance: " + pA);
+                System.out.println("Clothing Allowance: " + cA);
+                System.out.println("Gross Semi-Monthly Rate : " + gsmr);
+                System.out.println("Hourly Rate: " + hr +"\n\n");
+                
+                Float tEarned;
+                
+                tEarned =  Float.parseFloat(hr) * hrIn;
+                
+                System.out.println("Earned after working for " + hrIn + " hours: " + tEarned);
+                
+                // call deductions method
+                deduction(tEarned);
+                
+            }
+
+        }
+        empList.close();
+
+    }
+
+    public static void deduction (double total) {
+
+        {// SSS deduction 
+        if (total < 0 && total < 3250) {
+            //System.out.println("total is inbetween 0 and 3250");
+            total = total - 135; 
+        } else if (total > 3250 && total < 3750) {
+            //System.out.println("total is inbetween 3250 and 3750");
+            total = total - 157.50;
+        } else if (total > 3750 && total < 4250) {
+            System.out.println("3750 - 4250");
+            total = total - 180;
+        } else if (total > 4250 && total < 4750) {
+            System.out.println("4250 - 4750");
+            total = total - 202.50;
+        } else if (total > 4750 && total < 5250) {
+            System.out.println("4750 - 5250");
+            total = total - 225;
+        } else if (total > 5250 && total < 5750) {
+            System.out.println("5350 - 5750");
+            total = total - 247.50;
+        } else if (total > 5750 && total < 6250) {
+            System.out.println("5750 - 6250");
+            total = total - 270; 
+        } else if (total > 6250 && total < 6750) {
+            System.out.println("6250 - 6750");
+            total = total - 292.50;
+        } else if (total > 6750 && total < 7250) {
+            System.out.println("6750 - 7250");
+            total = total - 315;
+        } else if (total > 7250 && total < 7750) {
+            System.out.println("7250 - 7750");
+            total = total - 337.50;
+        } else if (total > 7750 && total < 8250) {
+            total = total - 360;
+        } else if (total > 8250 && total < 8750) {
+            total = total - 382.50;
+        } else if (total > 8750 && total < 9250) {
+            total = total - 405;
+        } else if (total > 9250 && total < 9750) {
+            total = total - 427.50;
+        } else if (total > 9750 && total < 10250) {
+            total = total - 450;
+        } else if (total > 10250 && total < 10750) {
+            total = total - 472.50;
+        } else if (total > 10750 && total < 11250) {
+            total = total - 495;
+        } else if (total > 11250 && total < 11750) {
+            total = total - 517.50;
+        } else if (total > 11750 && total < 12250) {
+            total = total - 540;
+        } else if (total > 12250 && total < 12750) {
+            total = total - 562.50;
+        } else if(total > 12750 && total < 13250) {
+            total = total - 585;
+        } else if (total > 13250 && total < 13750) {
+            total = total - 607.50;
+        } else if (total > 13750 && total < 14250) {
+            total = total - 630;
+        } else if (total > 14250 && total < 14750) {
+            total = total - 652.50;
+        } else if (total > 14750 && total < 15250) {
+            total = total- 675;
+        } else if (total > 15250 && total < 15750) {
+            total = total - 697.50;
+        } else if (total > 15750 && total < 16250) {
+            total = total - 720;
+        } else if (total > 16250 && total < 16750) {
+            total = total - 742.50;
+        } else if (total > 16750 && total < 17250) {
+            total = total - 765;
+        } else if (total > 17250 && total < 17750) {
+            total = total - 787.50;
+        } else if (total > 17750 && total < 18250) {
+            total = total - 810;
+        } else if (total < 18250 && total < 18750) {
+            total = total - 832.50;
+        } else if (total > 18750 && total < 19250) {
+            total = total - 855;
+        } else if (total > 19250 && total < 19750) {
+            total = total - 877.50;
+        } else if (total > 19750 && total < 20250) {
+            total = total - 900;
+        } else if (total > 20250 && total < 20750) {
+            total = total - 922.50;
+        } else if (total > 20750 && total < 21250) {
+            total = total - 945;
+        } else if (total > 21250 && total < 21750) {
+            total = total - 967.50;
+        } else if (total > 21750 && total < 22250) {
+            total = total - 990;
+        } else if (total > 22250 && total < 22750) {
+            total = total - 1012.50;
+        } else if (total > 22750 && total < 23250) {
+            total = total - 1035;
+        } else if (total > 23250 && total < 23750) {
+            total = total - 1057.50;
+        } else if (total > 23750 && total < 24250) {
+            total = total - 1080;
+        } else if (total > 24250 && total < 24750) {
+            total = total - 1102.50;
+        } else if (total > 24750) {
+            total = total - 1125;
+        }
+        }
+
+        // Philhealth Contribution
+        if (total < 10000) {
+            total = total - 300;
+        } else if (total > 10000.01 && total < 59999.99) {
+            total = ((total*0.03)*.50);
+        } // end of if else
+
+        // Pag-ibig Contribution
+        total = total - 100;
+
+        // Withholding Tax
+
+        if (total > 20833 && total < 33333) {
+            total = (total - 20833) * 0.20;
+        } else if (total > 33333 && total < 66667) {
+             total = ((total - 33333) * 0.25) + 2500;
+        } else if (total > 66667 && total < 166667) {
+            total = ((total - 66667) * 0.30) + 10833;
+        } else if (total > 166667 && total < 666667) {
+            total = ((total - 166667) * 0.32) + 40833.33;
+        } else if (total > 666667) {
+            total = ((total - 666667) * 0.35) + 200833.33;
+        }
+
+        System.out.println("Earned after Deductions: " + total);
+    }
+}
